@@ -35,7 +35,7 @@ public class Main
 	//in another corner of the screen. The JFrame will display the shapes relative to it's size.
 	//The picture Pentagon_Nest.png is provided for this purpose.
 	//Occasionally, the program lags and the JFrame stops updating. If this happens, restart the program.
-   
+	
 	public static boolean bDisplayShapes = true;
 	
 	public static void main(String[] args)
