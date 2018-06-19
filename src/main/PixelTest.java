@@ -1,7 +1,5 @@
 package main;
 
-import static methods.PrimativeMethods.isCloseTo;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
@@ -20,11 +18,14 @@ import screenIO.Screenshot;
 
 public class PixelTest 
 {
+	//THIS CLASS IS FOR DEBUGGING
+	//This class is used to test various properties of images.
 	private static RobotManager robotManager = new RobotManager();
 	private static boolean bIsRecording = false;
 	private static String startKey = "1";
 	private static String stopKey = "2";
 	
+	//Display an image at a larger scale.
 	public static void displayPixels(BufferedImage image, int iScale)
 	{
 		class myJPanel extends JPanel
@@ -48,6 +49,7 @@ public class PixelTest
 		frame.setVisible(true);
 	}
 	
+	//Write an image to a file.
 	public static void writeImage(BufferedImage image, String sDirectory)
 	{
 		try 
@@ -60,6 +62,7 @@ public class PixelTest
 		}
 	}
 	
+	//Read an image from a file.
 	public static BufferedImage readImage(String sDirectory)
 	{
 		try {
@@ -71,62 +74,8 @@ public class PixelTest
 		}
 	}
 	
-	public static ArrayList<Color> anylizeColors(BufferedImage image, int iColorMargin, int iDisplayScale)
-	{
-		ArrayList<Color> colors = new ArrayList<>();
-		
-		for (int x = 0; x < image.getWidth(); x++)
-		{
-			INNER_FOR:
-			for (int y = 0; y < image.getHeight(); y++)
-			{
-				Color pixel = new Color(image.getRGB(x, y));
-				for (Color color : colors)
-				{
-					if (isColor(pixel, color, iColorMargin))
-					{
-						continue INNER_FOR;
-					}
-				}
-				colors.add(pixel);
-			}
-		}
-		
-		class myJPanel extends JPanel
-		{
-			public void paintComponent(Graphics g)
-			{
-				int iXCoord = 0;
-				int iYCoord = 0;
-				for (Color color : colors)
-				{
-					if (iXCoord + iDisplayScale > ScreenData.SCREEN_WIDTH)
-					{
-						iXCoord = 0;
-						iYCoord += iDisplayScale;
-					}
-					g.setColor(color);
-					g.fillRect(iXCoord, iYCoord, iDisplayScale, iDisplayScale);
-					iXCoord += iDisplayScale;
-				}
-			}
-		}
-		JFrame frame = new JFrame();
-		frame.setSize(ScreenData.SCREEN_WIDTH, ScreenData.SCREEN_HEIGHT);
-		frame.add(new myJPanel());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		return colors;
-	}
-	
-	private static boolean isColor(Color color, Color targetColor, int iMargin)
-	{
-		if (!isCloseTo(color.getRed(), targetColor.getRed(), iMargin)) return false;
-		if (!isCloseTo(color.getGreen(), targetColor.getGreen(), iMargin)) return false;
-		if (!isCloseTo(color.getBlue(), targetColor.getBlue(), iMargin)) return false;
-		return true;
-	}
-	
+	//If bIsRecording is true, display the RGB value at the position of the mouse 
+	//whenever the mouse is clicked.
 	public static void mouseClicked()
 	{
 		if (bIsRecording)
@@ -136,6 +85,8 @@ public class PixelTest
 		}
 	}
 	
+	//When the startKey is pressed, set bIsRecording to true.
+	//When the stopKey is pressed, set bIsRecording to false.
 	public static void keyPressed(String sKeycode)
 	{
 		if (sKeycode.equals(startKey) && !bIsRecording)
@@ -148,11 +99,13 @@ public class PixelTest
 		}
 	}
 	
+	//Get the x position of the mouse.
 	private static int getMouseX()
 	{
 		return (int) MouseInfo.getPointerInfo().getLocation().getX();
 	}
 	
+	//Get the y position of the mouse.
 	private static int getMouseY()
 	{
 		return (int) MouseInfo.getPointerInfo().getLocation().getY();

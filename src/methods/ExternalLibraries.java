@@ -8,6 +8,7 @@ import org.jnativehook.NativeHookException;
 
 public class ExternalLibraries 
 {
+	//Register JNative hook to receive key and mouse events and disable logging.
 	public static void registerNativeHook()
 	{
 		Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());

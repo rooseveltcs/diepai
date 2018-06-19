@@ -11,7 +11,12 @@ import javax.swing.JPanel;
 
 public class ShapeDisplay extends JPanel
 {
+	//THIS CLASS IS FOR DEBUGGING
+	//This class is used to debug the current shape data the program is reading.
+	//This class uses a JFrame to display the current shape data.
+	//This JFrame updates every time new shape data is generated.
 	public JFrame frame;
+	//Setup the display.
 	public void setupDisplay()
 	{
 		frame = new JFrame();
@@ -21,6 +26,7 @@ public class ShapeDisplay extends JPanel
 		frame.setVisible(true);
 	}
 	
+	//Paint the shapes. Scale them to the size of the JFrame.
 	public void paintComponent(Graphics g)
 	{
 		int iWidth = this.getWidth();

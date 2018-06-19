@@ -1,7 +1,5 @@
 package tankInfo;
 
-import static methods.PrimativeMethods.isCloseTo;
-
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -13,10 +11,14 @@ import screenIO.ShapeList;
 
 public class TankTest 
 {
+	//This class is used to test various aspects of the player's in-game tank.
 	public static Color teamColor;
 	public static ArrayList<Color> enemyColors;
 	public static RobotManager rm = new RobotManager();
 	
+	//Get the color of the team the player is on.
+	//This method is currently not used due to difficulties. 
+	//Instead, the team color is momentarily set in main.Main at the start of the program.
 	public static void setTeamColor()
 	{
 		if (teamColor == null)
@@ -36,6 +38,7 @@ public class TankTest
 		}
 	}
 	
+	//Get the colors of the enemy teams based on the players current team.
 	public static void setEnemyColors()
 	{
 		if (enemyColors == null)
@@ -64,6 +67,7 @@ public class TankTest
 		}
 	}
 	
+	//Test if one color is within ShapeData.iColorMargin of another color.
 	private static boolean isColor(Color color, Color targetColor)
 	{
 		if (color == null ^ targetColor == null) return false;
@@ -72,5 +76,15 @@ public class TankTest
 		if (!isCloseTo(color.getGreen(), targetColor.getGreen(), iMargin)) return false;
 		if (!isCloseTo(color.getBlue(), targetColor.getBlue(), iMargin)) return false;
 		return true;
+	}
+		
+	//Test if one number is within a certain margin of another number.
+	private static boolean isCloseTo(int iNum, int iNumToTest, int iMargin)
+	{
+		if (iNumToTest >= iNum - iMargin && iNumToTest <= iNum + iMargin)
+		{
+			return true;
+		}
+		return false;
 	}
 }

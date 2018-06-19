@@ -6,26 +6,32 @@ import java.util.ArrayList;
 
 public class ShapeList 
 {
+	//This class stores a list of shapes. It provides many methods for retrieving shapes
+	//with certain properties.
 	private ArrayList<Shape> list = new ArrayList<>();
 	private Screenshot screenshot;
 	private Long lOrginTime;
 	
+	//Construct a new ShapeList object with a screenshot (representing the source of the shape data).
 	public ShapeList(Screenshot screenshot)
 	{
 		this(screenshot.getTimeTaken());
 		this.screenshot = screenshot;
 	}
 	
+	//Construct a new ShapeList object with an origin time.
 	public ShapeList(long lOrginTime)
 	{
 		this.lOrginTime = lOrginTime;
 	}
 	
+	//Construct a new ShapeList object.
 	public ShapeList()
 	{
 		this(-1);
 	}
 	
+	//Get all the shapes that contain the specified color.
 	public ShapeList getShapesWithColor(Color color)
 	{
 		ShapeList shapesWithColor = new ShapeList();
@@ -36,6 +42,7 @@ public class ShapeList
 		return shapesWithColor;
 	}
 	
+	//Get all the shapes that contain any of the specified colors.
 	public ShapeList getShapesWithColors(ArrayList<Color> colors)
 	{
 		ShapeList output = new ShapeList();
@@ -46,6 +53,7 @@ public class ShapeList
 		return output;
 	}
 	
+	//Test if this ShapeList has any shapes with the specified color.
 	public boolean hasShapeWithColor(Color color)
 	{
 		for (Shape shape : list)
@@ -55,6 +63,7 @@ public class ShapeList
 		return false;
 	}
 	
+	//Get the closest shape to the target point.
 	public Shape getClosestShapeTo(Point targetPoint)
 	{
 		Shape closestShape = null;
@@ -72,6 +81,7 @@ public class ShapeList
 		return closestShape;
 	}
 	
+	//Get all shapes with a radius larger than the specified radius.
 	public ShapeList getShapesOutsideRadius(int iRadius)
 	{
 		ShapeList output = new ShapeList();
@@ -82,6 +92,7 @@ public class ShapeList
 		return output;
 	}
 	
+	//Get all shapes with a radius smaller than the specified radius.
 	public ShapeList getShapesInsideRadius(int iRadius)
 	{
 		ShapeList output = new ShapeList();
@@ -92,6 +103,7 @@ public class ShapeList
 		return output;
 	}
 	
+	//Test if any of the shapes contain the specified point.
 	public boolean containsPoint(Point pointToCheck)
 	{
 		for (Shape shape : list)
@@ -101,6 +113,7 @@ public class ShapeList
 		return false;
 	}
 	
+	//Call the printData method on each shape.
 	public void printShapes()
 	{
 		System.out.println(list.size() + " Shapes:");
@@ -110,10 +123,12 @@ public class ShapeList
 		}
 	}
 	
+	//Implemented ArrayList method for the list of shapes.
 	public int size() {return list.size();}
 	public Shape get(int i) {return list.get(i);}
 	public void add(Shape shape) {list.add(shape);}
 	
+	//Add all the shapes in the specified shape list to this shape list.
 	public void addAll(ShapeList shapeList)
 	{
 		for (Shape shape : shapeList.list)
@@ -122,8 +137,12 @@ public class ShapeList
 		}
 	}
 	
+	//Get the origin time of this shape list.
 	public long getOriginTime() {return lOrginTime;}
 	
+	//THIS METHOD IS FOR DEBUGGING
+	//Move the mouse to each shape in the list at the specified interval.
+	//Each time the mouse is moved print out the radius of the shape.
 	public void debugWithMouse(RobotManager rm, int ms)
 	{
 		rm.delay(ms);

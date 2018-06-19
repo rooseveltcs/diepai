@@ -13,6 +13,8 @@ import tankInfo.TankTest;
 
 public class GeneralMovement 
 {
+	//This class is used to control movement while playing the game
+	//by pressing combinations of the keys a, w, s, and d.
 	private static RobotManager robotManager = new RobotManager();
 	private static String startKey = "comma";
 	private static String stopKey = "period";
@@ -24,6 +26,7 @@ public class GeneralMovement
 	public static int key3;
 	public static int key4;
 	
+	//Start with thread.
 	private static void startWithThread()
 	{
 		runningThread = new Thread(new Runnable()
@@ -35,51 +38,12 @@ public class GeneralMovement
 		});
 		runningThread.start();
 	}
-
-	/*private static void start()
-	{
-		TankTest.setEnemyColors();
-		while (true)
-		{
-			ShapeList shapes = ScreenData.shapes;
-			ShapeList enemyColors = shapes.getShapesWithColors(TankTest.enemyColors);
-			
-			ShapeList enemyBullets = enemyColors.getShapesInsideRadius(ShapeData.MIN_TANK_RADIUS);
-			ShapeList enemyTanks = enemyColors.getShapesOutsideRadius(ShapeData.MIN_TANK_RADIUS);
-			
-			ShapeList pentagons = shapes.getShapesWithColor(ShapeData.PENTAGON_COLOR);
-			
-			if (enemyTanks.size() > 0)
-			{
-				Shape tank = enemyTanks.getClosestShapeTo(ScreenData.CENTER);
-				moveAwayFromPoint(tank.centerpoint, 100);
-			}
-			else if (enemyBullets.size() > 0)
-			{
-				Shape bullet = enemyBullets.getClosestShapeTo(ScreenData.CENTER);
-				moveAwayFromPoint(bullet.centerpoint, 100);
-			}
-			else if (pentagons.size() > 0)
-			{
-				Point center = ScreenData.CENTER;
-				Shape target = pentagons.getClosestShapeTo(center);
-				int iDistance = target.getDistanceFrom(ScreenData.CENTER);
-				if (iDistance > 200) 
-				{
-					moveTowardPoint(target.centerpoint, 100);
-				}
-			}
-			else
-			{
-				robotManager.pressKey(key1);
-				robotManager.pressKey(key2);
-				robotManager.delay(100);
-				robotManager.releaseKey(key1);
-				robotManager.releaseKey(key2);
-			}
-		}
-	}*/
 	
+	//A very simple movement algorithm that is executed continuously.
+	//If there are enemy players or bullets on the screen, retreat.
+	//Else if there are pentagons on the screen, move toward the closest one
+	//if you are more than 200 pixels away from it. 
+	//Else move toward the center of the map (opposite direction from retreat).
 	private static void start()
 	{
 		TankTest.setEnemyColors();
@@ -118,6 +82,7 @@ public class GeneralMovement
 		}
 	}
 	
+	//Move toward a point in the game.
 	public static void moveTowardPoint(Point target, int ms)
 	{
 		Point center = ScreenData.CENTER;
@@ -134,6 +99,7 @@ public class GeneralMovement
 		else robotManager.releaseKey(KeyEvent.VK_W);
 	}
 	
+	//Move away from a point in the game.
 	public static void moveAwayFromPoint(Point target, int ms)
 	{
 		Point center = ScreenData.CENTER;
@@ -150,6 +116,8 @@ public class GeneralMovement
 		else robotManager.releaseKey(KeyEvent.VK_S);
 	}
 	
+	//When the startKey is pressed, set bIsRunning to true and start with thread.
+	//When the stopKey is pressed, set bIsRunning to false and stop the running thread.
 	public static void keyPressed(String sKeycode)
 	{
 		if (sKeycode.equals(startKey) && !bIsRunning)
@@ -164,6 +132,7 @@ public class GeneralMovement
 		}
 	}
 	
+	//Pause the current thread.
 	public static void sleep(int ms)
 	{
 		try 

@@ -6,8 +6,12 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
+import main.Main;
+
 public class ScreenData 
 {
+	//This class stores data about the screen, including the final shape data for each screenshot.
+	
 	public static final int SCREEN_WIDTH;
 	public static final int SCREEN_HEIGHT;
 	
@@ -15,8 +19,9 @@ public class ScreenData
 	public static final int Y_CENTER;
 	public static final Point CENTER;
 	
-	public static boolean bDisplayShapes = false;
 	public static ShapeDisplay shapeDisplay = new ShapeDisplay();
+	//This static block sets the screen height width, and center.
+	//It also starts the shapeDisplay if Main.bDisplayShapes is set to true.
 	static
 	{
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -26,22 +31,25 @@ public class ScreenData
 		X_CENTER = ScreenData.SCREEN_WIDTH / 2;
 		Y_CENTER = ScreenData.SCREEN_HEIGHT / 2;
 		CENTER = new Point(X_CENTER, Y_CENTER);
-		if (bDisplayShapes) shapeDisplay.setupDisplay();
+		if (Main.bDisplayShapes) shapeDisplay.setupDisplay();
 	}
 	
+	//The current list of shapes.
 	public static ShapeList shapes = new ShapeList();
 	
+	//Update the shapes. This removes the previous ShapeList object.
+	//This object can still be used if other classes have a reference to it. 
+	//If Main.bDisplayShapes is set to true, update the shape display. 
 	public static void updateShapes(ShapeList newShapes)
 	{
-		//System.out.println("UPDATING");
 		ScreenData.shapes = newShapes;
-		if (bDisplayShapes) 
+		if (Main.bDisplayShapes) 
 		{	
 			shapeDisplay.repaint();
-			//sleep(500);
 		}
 	}
 	
+	//Pause the current thread until the next shape update. Pause interval is specified.
 	public static void waitForUpdate(int ms)
 	{
 		long lCurrentScreenshotTime = shapes.getOriginTime();
@@ -51,6 +59,7 @@ public class ScreenData
 		}
 	}
 	
+	//Pause the current thread until the next shape update. Use default pause interval.
 	public static void waitForUpdate()
 	{
 		long lCurrentScreenshotTime = shapes.getOriginTime();
@@ -60,6 +69,7 @@ public class ScreenData
 		}
 	}
 	
+	//Pause the current thread.
 	public static void sleep(int ms)
 	{
 		try 

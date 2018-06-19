@@ -5,19 +5,16 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.ArrayList;
 
-import main.Main;
-
-import static methods.PrimativeMethods.*;
-import static methods.Console.*;
-
 public class ScreenParser 
 {
+	//This class is used to parse screenshots into ShapeList objects. 
 	public static Timer timer = new Timer();
 	private static boolean bIsRunning = false;
 	public static int iNumDelays = 0;
 	
 	private static final int SEARCH_MARGIN = 5;
 	
+	//Parse a screenshot in a new thread.
 	public static void parseScreenshot(Screenshot screenshot)
 	{
 		if (bIsRunning)
@@ -41,6 +38,10 @@ public class ScreenParser
 		}
 	}
 	
+	//Parse a screenshot. 
+	//Search the screenshot for pixels with a color in ShapeData.colors.
+	//Whenever these colors are found, outline the shape around them and store it as a shape object.
+	//Add all the shapes to a shape list. 
 	private static void parseScreenshotWithThread(Screenshot screenshot)
 	{
 		ShapeList shapes = new ShapeList(screenshot);
@@ -72,6 +73,7 @@ public class ScreenParser
  		ScreenData.updateShapes(shapes);
 	}
 	
+	//Convert an ArrayList of side poitns into a shape object.
 	private static Shape getShape(ArrayList<Point> sidePoints, Color color)
 	{
 		int[] xPoints = new int[sidePoints.size()];
@@ -85,15 +87,9 @@ public class ScreenParser
 		
 		Polygon polygon = new Polygon(xPoints, yPoints, sidePoints.size());
 		return new SimplePolygon(polygon, color);
-	
-		/*System.out.println("Centerpoint: " + centerPoint);
-		System.out.println("Max Radius: " + dMaxRadius);
-		System.out.println("Min Radius: " + dMinRadius);
-		System.out.println("Difference: " + dRadiusDifference);
-		System.out.println("Average Radius: " + dAverageRadius);
-		System.out.println();*/
 	}
 	
+	//Get the side points by tracing around the outside of the shape.
 	private static ArrayList<Point> getSidePoints(Point point, Screenshot screenshot, Color color)
 	{
 		Point startingPoint = null;
@@ -234,86 +230,7 @@ public class ScreenParser
 		return sidePoints;
 	}
 	
-	/*private static Polygon getBasicCorners(Point center, Screenshot screenshot, Color color)
-	{
-		int[] xPoints = new int[4];
-		xPoints[0] = center.x - 20;
-		xPoints[1] = center.x + 20;
-		xPoints[2] = center.x + 20;
-		xPoints[3] = center.x - 20;
-		
-		int[] yPoints = new int[4];
-		yPoints[0] = center.y - 20;
-		yPoints[1] = center.y - 20;
-		yPoints[2] = center.y + 20;
-		yPoints[3] = center.y + 20;
-		
-		Polygon corners = new Polygon(xPoints, yPoints, 4);
-		return corners;
-	}*/
-	
-	private static Point getCenterpoint(int x, int y, Screenshot screenshot, Color targetColor, int iNumCenters)
-	{
-		for (int i = 0; i < iNumCenters; i++)
-		{
-			if (i % 2 == 0)
-			{
-				x = getXCenter(x, y, screenshot, targetColor);
-			}
-			else
-			{
-				y = getYCenter(x, y, screenshot, targetColor);
-			}
-		}
-		return new Point(x, y);
-	}
-	
-	private static int getXCenter(int x, int y, Screenshot screenshot, Color targetColor)
-	{
-		//Find left
-		int iLeft;
-		for (iLeft = x; iLeft >= 0; iLeft--)
-		{
-			if (!isColor(screenshot.getPixel(iLeft, y), targetColor))
-			{
-				break;
-			}
-		}
-		//Find right
-		int iRight;
-		for (iRight = x; iRight < ScreenData.SCREEN_WIDTH; iRight++)
-		{
-			if (!isColor(screenshot.getPixel(iRight, y), targetColor))
-			{
-				break;
-			}
-		}
-		return (iLeft + iRight) / 2;
-	}
-	
-	private static int getYCenter(int x, int y, Screenshot screenshot, Color targetColor)
-	{
-		//Find top
-		int iTop;
-		for (iTop = y; iTop >= 0; iTop--)
-		{
-			if (!isColor(screenshot.getPixel(x, iTop), targetColor))
-			{
-				break;
-			}
-		}
-		//Find bottom
-		int iBottom;
-		for (iBottom = y; iBottom < ScreenData.SCREEN_HEIGHT; iBottom++)
-		{
-			if (!isColor(screenshot.getPixel(x, iBottom), targetColor))
-			{
-				break;
-			}
-		}
-		return (iTop + iBottom) / 2;
-	}
-	
+	//Test if one color is within ShapeData.iColorMargin of another color.
 	private static boolean isColor(Color color, Color targetColor)
 	{
 		if (color == null ^ targetColor == null) return false;
@@ -324,6 +241,17 @@ public class ScreenParser
 		return true;
 	}
 	
+	//Test if one number is within a certain margin of another number.
+	private static boolean isCloseTo(int iNum, int iNumToTest, int iMargin)
+	{
+		if (iNumToTest >= iNum - iMargin && iNumToTest <= iNum + iMargin)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	//Reset the timer data. This data shows how long it is taking to parse screenshots.
 	public static void resetData()
 	{
 		timer = new Timer();

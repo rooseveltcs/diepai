@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class ShapeData 
 {
+	//This class stores the colors of every shape in the game.
+	//It adds these colors to an ArrayList for use in the ScreenParser class.
 	public static final int iColorMargin = 15;
 	
 	public static final int MIN_TANK_RADIUS = 8;
@@ -22,10 +24,12 @@ public class ShapeData
 	public static final Color RED_COLOR = new Color(240, 78, 82);
 	public static final Color PURPLE_COLOR = new Color(192, 126, 242);
 	
-	//List of all colors to read for use in the ScreenParser class.
+	//List of all colors for use in the ScreenParser class.
 	public static ArrayList<Color> colors = new ArrayList<>();
 	public static ArrayList<Color> basicShapeColors = new ArrayList<>();
 	public static ArrayList<Color> teamColors = new ArrayList<>();
+	
+	//Put every color in an ArrayList.
 	static
 	{
 		basicShapeColors.add(SQUARE_COLOR);
