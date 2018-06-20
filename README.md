@@ -14,7 +14,7 @@ The movement controller uses the shape data to decide which direction to move. A
 the game is controlled by pressing the keys a, w, s, and d. 
 The movement controller is activated by pressing "," and deactivated by pressing ".".
 	
-when bDisplayShapes is set to true, a JFrame will appear at the start of the program.
+When bDisplayShapes is set to true, a JFrame will appear at the start of the program.
 The runnable_jar file has bDisplayShapes set to true for testing purposes. 
 The JFrame displays the current shape data the program has and updates it's display with each screenshot. 
 To test it, put the JFrame in one corner of the screen, and a picture with colors that it is looking for
